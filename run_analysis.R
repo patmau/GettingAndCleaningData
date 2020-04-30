@@ -8,16 +8,15 @@ run_analysis <- function() {
     ## function to read data files in subdirectories
     ##     
     read_raw <- function(dataset) {
-        filePrefix = list("subject" = "subject_", "meas" = "X_", "activity" = "y_")
+        filePrefix = list("subject" = "subject_", "feature" = "X_", "activity" = "y_")
         
-        print(paste("Reading raw files for dataset:", dataset))
+        cat("Reading raw files for dataset:", dataset, "\n")
         rawData = lapply(filePrefix, function(prefix) {
             filename <- paste(prefix, dataset, ".txt", sep = "")
             pathToFile <- paste(dataDir, dataset, filename, sep = "/")
-            print(pathToFile)
+            cat("\t", pathToFile, "\n")
             read.table(pathToFile)
         })
-        print("")
 
         rawData
     }
@@ -27,10 +26,10 @@ run_analysis <- function() {
     featureFile <- paste(dataDir, "features.txt", sep = "/")
     features <- read.table(featureFile, stringsAsFactors = FALSE)
     
-    usefulFeatureIdx <- grep("mean\\(\\)|std\\(\\)", features[, 2])
-    usefulFeatureNames <- features[usefulFeatureIdx, 2]
+    interestingFeatureIdx <- grep("mean\\(\\)|std\\(\\)", features[, 2])
+    interestingFeatureNames <- features[interestingFeatureIdx, 2]
     # remove parentheses
-    usefulFeatureNames <- gsub("\\(\\)", "", usefulFeatureNames) 
+    interestingFeatureNames <- gsub("\\(\\)", "", interestingFeatureNames) 
     
     ## activities
     ## 
@@ -56,8 +55,8 @@ run_analysis <- function() {
         tidyInitial <- mutate(tidyInitial, activity = factor(activity, labels = activityLabels, ordered = TRUE))
         
         # extract interesting features and combine
-        interestingFeatures <- raw$meas[, usefulFeatureIdx]
-        colnames(interestingFeatures) <- usefulFeatureNames
+        interestingFeatures <- raw$feature[, interestingFeatureIdx]
+        colnames(interestingFeatures) <- interestingFeatureNames
         
         # get rid of large raw object
         rm(raw)
