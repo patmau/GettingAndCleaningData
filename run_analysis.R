@@ -1,4 +1,5 @@
 library(dplyr)
+library(reshape2)
 
 run_analysis <- function() {
     
@@ -28,7 +29,8 @@ run_analysis <- function() {
     
     usefulFeatureIdx <- grep("mean\\(\\)|std\\(\\)", features[, 2])
     usefulFeatureNames <- features[usefulFeatureIdx, 2]
-    usefulFeatureNames <- gsub("\\(\\)", "", usefulFeatureNames)
+    # remove parentheses
+    usefulFeatureNames <- gsub("\\(\\)", "", usefulFeatureNames) 
     
     ## activities
     ## 
@@ -57,12 +59,17 @@ run_analysis <- function() {
         interestingFeatures <- raw$meas[, usefulFeatureIdx]
         colnames(interestingFeatures) <- usefulFeatureNames
         
-        # get rid of possibly very large raw object
+        # get rid of large raw object
         rm(raw)
         
         cbind(tidyInitial, interestingFeatures)
     })
     
-    tidyComplete = rbind(tidy$train, tidy$test)
-    write.table(tidyComplete, file = "tidy_complete.txt")
+    tidyComplete <- rbind(tidy$train, tidy$test)
+    
+    ## average by activity and by subject
+    meltComplete <- melt(tidyComplete, id.vars = names(tidyComplete[1:3]))
+    tidyAverages <- dcast(meltComplete, subject.id + activity ~ variable, mean, drop = FALSE)
+    
+    write.table(tidyAverages, file = "tidy_averages.txt")
 }
