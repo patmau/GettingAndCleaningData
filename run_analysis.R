@@ -34,6 +34,8 @@ run_analysis <- function() {
     ## 
     activityFile <- paste(dataDir, "activity_labels.txt", sep = "/")
     activityLabels <- read.table(activityFile)
+    activityLabels <- gsub("_", ".", tolower(activityLabels[, 2]))
+    activityLabels <- gsub("stairs", "", activityLabels)
     
     
     ## process files in dataset subdirectories
@@ -48,8 +50,11 @@ run_analysis <- function() {
         tidyInitial <- cbind(dataSet, raw$subject, raw$activity)
         colnames(tidyInitial) <- c("dataset", "subject.id", "activity")
         
+        # descriptive activities
+        tidyInitial <- mutate(tidyInitial, activity = factor(activity, labels = activityLabels, ordered = TRUE))
+        
         # extract interesting features and combine
-        interestingFeatures <- raw$meas[, usefulIdx]
+        interestingFeatures <- raw$meas[, usefulFeatureIdx]
         colnames(interestingFeatures) <- usefulFeatureNames
         
         # get rid of possibly very large raw object
