@@ -35,9 +35,8 @@ run_analysis <- function() {
     ## 
     activityFile <- paste(dataDir, "activity_labels.txt", sep = "/")
     activityLabels <- read.table(activityFile)
+    # convert to lower case and replace _ with .
     activityLabels <- gsub("_", ".", tolower(activityLabels[, 2]))
-    activityLabels <- gsub("stairs", "", activityLabels)
-    
     
     ## process files in dataset subdirectories
     ## 
@@ -70,5 +69,5 @@ run_analysis <- function() {
     meltComplete <- melt(tidyComplete, id.vars = names(tidyComplete[1:3]))
     tidyAverages <- dcast(meltComplete, subject.id + activity ~ variable, mean, drop = FALSE)
     
-    write.table(tidyAverages, file = "tidy_averages.txt")
+    write.table(tidyAverages, file = "HAR_tidy_means.txt")
 }
