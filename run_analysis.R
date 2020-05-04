@@ -70,5 +70,5 @@ run_analysis <- function() {
     meltComplete <- melt(tidyComplete, id.vars = names(tidyComplete[1:3]))
     tidyAverages <- dcast(meltComplete, subject.id + activity ~ variable, mean, drop = FALSE)
 
-    write.table(tidyAverages, file = "HAR_tidy_means.txt")
+    write.table(tidyAverages, file = "HAR_tidy_means.txt", row.names = FALSE)
 }
