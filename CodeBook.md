@@ -26,8 +26,8 @@ Unfortunately, the documentation in the original data set is not sufficient to d
 
 | token     | Description |
 |---        |--- |
-| t (prefix)| as prefix: measurement in the time domain |
-| f (prefix)| as prefix: measurement in the frequency domain |
+| t (prefix)| measurement in the time domain |
+| f (prefix)| measurement in the frequency domain |
 | Body      | measurement related to a subject's body motion |
 | Gravity   | measurement related to gravity |
 | Jerk      | measurement related to sudden body movement |
@@ -36,7 +36,7 @@ Unfortunately, the documentation in the original data set is not sufficient to d
 | Mag       | magnitude (Euclidian norm) of a 3-dimensional signal |
 | mean      | measurement is a mean in the original data set |
 | std       | measurement is a standard deviation in the original data set |
-| X, Y, Z (suffix)   | as suffix: measurement along the X-, Y-, or Z- axis of the phone's internal coordinate system |
+| X, Y, Z (suffix)   | measurement along the X-, Y-, or Z- axis of the phone's internal coordinate system |
 
 **Note:** Some column headers contain a token "BodyBody". It is assumed here that this is a typo and should read as just "Body". The typo is not corrected in order to facilitate back-conversion of the column names to those used in the original data set.
 
