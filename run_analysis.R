@@ -28,8 +28,9 @@ run_analysis <- function() {
     
     interestingFeatureIdx <- grep("mean\\(\\)|std\\(\\)", features[, 2])
     interestingFeatureNames <- features[interestingFeatureIdx, 2]
-    # remove parentheses
+    # remove parentheses, change "-" to "."
     interestingFeatureNames <- gsub("\\(\\)", "", interestingFeatureNames) 
+    interestingFeatureNames <- gsub("-", ".", interestingFeatureNames)
     
     ## activities
     ## 
@@ -45,7 +46,7 @@ run_analysis <- function() {
     tidy <- lapply(datasets, function(datasetName) {
         raw <- read_raw(datasetName)
         
-        # combine subject, activity and dataset
+        # start off by combining dataset, subject, activity 
         dataSet <- rep(datasetName, length(raw$subject))
         tidyInitial <- cbind(dataSet, raw$subject, raw$activity)
         colnames(tidyInitial) <- c("dataset", "subject.id", "activity")
@@ -68,6 +69,6 @@ run_analysis <- function() {
     ## average by activity and by subject
     meltComplete <- melt(tidyComplete, id.vars = names(tidyComplete[1:3]))
     tidyAverages <- dcast(meltComplete, subject.id + activity ~ variable, mean, drop = FALSE)
-    
+
     write.table(tidyAverages, file = "HAR_tidy_means.txt")
 }
