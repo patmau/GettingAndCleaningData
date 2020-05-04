@@ -7,7 +7,7 @@ Jorge L. Reyes-Ortiz _et al._ released a data set for [Human Activity Recognitio
 The data set was built from the recordings of 30 subjects performing activities of daily living while carrying a waist-mounted smartphone with embedded inertial sensors.
 
 The data provided by Reyes-Ortiz _et al._ is separated into two different data sets and distributed over multiple files.
-The goal of this course project is to combine this data, extract means and standard deviations of measurements, and finally produce a singe file which contains a _tidy_ data set that is easy to read into and process with R.
+The goal of this course project is to combine this data, extract means and standard deviations of measurements, compute means of these measurement by subject and activity, and finally produce a singe file which contains a _tidy_ data set that is easy to read into and process with R.
 
 
 ## Perform the analysis
@@ -30,7 +30,7 @@ run_analysis()
 
 The script will produce a file named `HAR_tidy_means.txt`. To load and view this file in the R console:
 ```R
-tidy <- read.table("HAR_tidy_means".txt")
+tidy <- read.table("HAR_tidy_means".txt", header = TRUE)
 View(tidy)
 ```
 
