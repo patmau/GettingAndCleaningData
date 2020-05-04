@@ -31,7 +31,7 @@ run_analysis <- function() {
     # remove parentheses, change "-" to "."
     interestingFeatureNames <- gsub("\\(\\)", "", interestingFeatureNames) 
     interestingFeatureNames <- gsub("-", ".", interestingFeatureNames)
-    
+
     ## activities
     ## 
     activityFile <- paste(dataDir, "activity_labels.txt", sep = "/")
